@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.samuel.escuela.entity;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -41,30 +40,24 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Materia.findByNombre", query = "SELECT m FROM Materia m WHERE m.nombre = :nombre"),
     @NamedQuery(name = "Materia.findByPlan", query = "SELECT m FROM Materia m WHERE m.plan = :plan")})
 public class Materia implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    public static final String PROP_ID = "id";
     @Basic(optional = false)
     @Column(nullable = false, length = 100)
     private String nombre;
-    public static final String PROP_NOMBRE = "nombre";
     @Basic(optional = false)
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date plan;
-    public static final String PROP_PLAN = "plan";
     @JoinColumn(name = "grupo_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Grupo grupoId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "materia")
     private List<MateriaAsignada> materiaAsignadaList;
-    
-    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public Materia() {
     }
@@ -84,9 +77,7 @@ public class Materia implements Serializable {
     }
 
     public void setId(Integer id) {
-        Integer oldId = this.id;
         this.id = id;
-        propertyChangeSupport.firePropertyChange(PROP_ID, oldId, id);
     }
 
     public String getNombre() {
@@ -94,9 +85,7 @@ public class Materia implements Serializable {
     }
 
     public void setNombre(String nombre) {
-        String oldNombre = this.nombre;
         this.nombre = nombre;
-        propertyChangeSupport.firePropertyChange(PROP_NOMBRE, oldNombre, nombre);
     }
 
     public Date getPlan() {
@@ -148,14 +137,5 @@ public class Materia implements Serializable {
     public String toString() {
         return "com.samuel.escuela.entity.Materia[ id=" + id + " ]";
     }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
-    }
-    
     
 }

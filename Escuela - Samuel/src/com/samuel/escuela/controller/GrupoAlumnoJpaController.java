@@ -14,8 +14,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import com.samuel.escuela.entity.Grupo;
 import com.samuel.escuela.entity.Alumno;
-import com.samuel.escuela.entity.CalificacionGrupo;
-import com.samuel.escuela.entity.CalificacionGrupoPK;
+import com.samuel.escuela.entity.GrupoAlumno;
+import com.samuel.escuela.entity.GrupoAlumnoPK;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -23,39 +23,39 @@ import javax.persistence.EntityManager;
  *
  * @author cobrakik01
  */
-public class CalificacionGrupoJpaController extends BaseController implements Serializable {
+public class GrupoAlumnoJpaController extends BaseController implements Serializable {
 
-    public void create(CalificacionGrupo calificacionGrupo) throws PreexistingEntityException, Exception {
-        if (calificacionGrupo.getCalificacionGrupoPK() == null) {
-            calificacionGrupo.setCalificacionGrupoPK(new CalificacionGrupoPK());
+    public void create(GrupoAlumno grupoAlumno) throws PreexistingEntityException, Exception {
+        if (grupoAlumno.getGrupoAlumnoPK() == null) {
+            grupoAlumno.setGrupoAlumnoPK(new GrupoAlumnoPK());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Grupo grupo = calificacionGrupo.getGrupo();
+            Grupo grupo = grupoAlumno.getGrupo();
             if (grupo != null) {
                 grupo = em.getReference(grupo.getClass(), grupo.getId());
-                calificacionGrupo.setGrupo(grupo);
+                grupoAlumno.setGrupo(grupo);
             }
-            Alumno alumno = calificacionGrupo.getAlumno();
+            Alumno alumno = grupoAlumno.getAlumno();
             if (alumno != null) {
                 alumno = em.getReference(alumno.getClass(), alumno.getId());
-                calificacionGrupo.setAlumno(alumno);
+                grupoAlumno.setAlumno(alumno);
             }
-            em.persist(calificacionGrupo);
+            em.persist(grupoAlumno);
             if (grupo != null) {
-                grupo.getCalificacionGrupoList().add(calificacionGrupo);
+                grupo.getGrupoAlumnoList().add(grupoAlumno);
                 grupo = em.merge(grupo);
             }
             if (alumno != null) {
-                alumno.getCalificacionGrupoList().add(calificacionGrupo);
+                alumno.getGrupoAlumnoList().add(grupoAlumno);
                 alumno = em.merge(alumno);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
-            if (findCalificacionGrupo(calificacionGrupo.getCalificacionGrupoPK()) != null) {
-                throw new PreexistingEntityException("CalificacionGrupo " + calificacionGrupo + " already exists.", ex);
+            if (findGrupoAlumno(grupoAlumno.getGrupoAlumnoPK()) != null) {
+                throw new PreexistingEntityException("GrupoAlumno " + grupoAlumno + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -65,48 +65,48 @@ public class CalificacionGrupoJpaController extends BaseController implements Se
         }
     }
 
-    public void edit(CalificacionGrupo calificacionGrupo) throws NonexistentEntityException, Exception {
+    public void edit(GrupoAlumno grupoAlumno) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            CalificacionGrupo persistentCalificacionGrupo = em.find(CalificacionGrupo.class, calificacionGrupo.getCalificacionGrupoPK());
-            Grupo grupoOld = persistentCalificacionGrupo.getGrupo();
-            Grupo grupoNew = calificacionGrupo.getGrupo();
-            Alumno alumnoOld = persistentCalificacionGrupo.getAlumno();
-            Alumno alumnoNew = calificacionGrupo.getAlumno();
+            GrupoAlumno persistentGrupoAlumno = em.find(GrupoAlumno.class, grupoAlumno.getGrupoAlumnoPK());
+            Grupo grupoOld = persistentGrupoAlumno.getGrupo();
+            Grupo grupoNew = grupoAlumno.getGrupo();
+            Alumno alumnoOld = persistentGrupoAlumno.getAlumno();
+            Alumno alumnoNew = grupoAlumno.getAlumno();
             if (grupoNew != null) {
                 grupoNew = em.getReference(grupoNew.getClass(), grupoNew.getId());
-                calificacionGrupo.setGrupo(grupoNew);
+                grupoAlumno.setGrupo(grupoNew);
             }
             if (alumnoNew != null) {
                 alumnoNew = em.getReference(alumnoNew.getClass(), alumnoNew.getId());
-                calificacionGrupo.setAlumno(alumnoNew);
+                grupoAlumno.setAlumno(alumnoNew);
             }
-            calificacionGrupo = em.merge(calificacionGrupo);
+            grupoAlumno = em.merge(grupoAlumno);
             if (grupoOld != null && !grupoOld.equals(grupoNew)) {
-                grupoOld.getCalificacionGrupoList().remove(calificacionGrupo);
+                grupoOld.getGrupoAlumnoList().remove(grupoAlumno);
                 grupoOld = em.merge(grupoOld);
             }
             if (grupoNew != null && !grupoNew.equals(grupoOld)) {
-                grupoNew.getCalificacionGrupoList().add(calificacionGrupo);
+                grupoNew.getGrupoAlumnoList().add(grupoAlumno);
                 grupoNew = em.merge(grupoNew);
             }
             if (alumnoOld != null && !alumnoOld.equals(alumnoNew)) {
-                alumnoOld.getCalificacionGrupoList().remove(calificacionGrupo);
+                alumnoOld.getGrupoAlumnoList().remove(grupoAlumno);
                 alumnoOld = em.merge(alumnoOld);
             }
             if (alumnoNew != null && !alumnoNew.equals(alumnoOld)) {
-                alumnoNew.getCalificacionGrupoList().add(calificacionGrupo);
+                alumnoNew.getGrupoAlumnoList().add(grupoAlumno);
                 alumnoNew = em.merge(alumnoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                CalificacionGrupoPK id = calificacionGrupo.getCalificacionGrupoPK();
-                if (findCalificacionGrupo(id) == null) {
-                    throw new NonexistentEntityException("The calificacionGrupo with id " + id + " no longer exists.");
+                GrupoAlumnoPK id = grupoAlumno.getGrupoAlumnoPK();
+                if (findGrupoAlumno(id) == null) {
+                    throw new NonexistentEntityException("The grupoAlumno with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -117,29 +117,29 @@ public class CalificacionGrupoJpaController extends BaseController implements Se
         }
     }
 
-    public void destroy(CalificacionGrupoPK id) throws NonexistentEntityException {
+    public void destroy(GrupoAlumnoPK id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            CalificacionGrupo calificacionGrupo;
+            GrupoAlumno grupoAlumno;
             try {
-                calificacionGrupo = em.getReference(CalificacionGrupo.class, id);
-                calificacionGrupo.getCalificacionGrupoPK();
+                grupoAlumno = em.getReference(GrupoAlumno.class, id);
+                grupoAlumno.getGrupoAlumnoPK();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The calificacionGrupo with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The grupoAlumno with id " + id + " no longer exists.", enfe);
             }
-            Grupo grupo = calificacionGrupo.getGrupo();
+            Grupo grupo = grupoAlumno.getGrupo();
             if (grupo != null) {
-                grupo.getCalificacionGrupoList().remove(calificacionGrupo);
+                grupo.getGrupoAlumnoList().remove(grupoAlumno);
                 grupo = em.merge(grupo);
             }
-            Alumno alumno = calificacionGrupo.getAlumno();
+            Alumno alumno = grupoAlumno.getAlumno();
             if (alumno != null) {
-                alumno.getCalificacionGrupoList().remove(calificacionGrupo);
+                alumno.getGrupoAlumnoList().remove(grupoAlumno);
                 alumno = em.merge(alumno);
             }
-            em.remove(calificacionGrupo);
+            em.remove(grupoAlumno);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -148,19 +148,19 @@ public class CalificacionGrupoJpaController extends BaseController implements Se
         }
     }
 
-    public List<CalificacionGrupo> findCalificacionGrupoEntities() {
-        return findCalificacionGrupoEntities(true, -1, -1);
+    public List<GrupoAlumno> findGrupoAlumnoEntities() {
+        return findGrupoAlumnoEntities(true, -1, -1);
     }
 
-    public List<CalificacionGrupo> findCalificacionGrupoEntities(int maxResults, int firstResult) {
-        return findCalificacionGrupoEntities(false, maxResults, firstResult);
+    public List<GrupoAlumno> findGrupoAlumnoEntities(int maxResults, int firstResult) {
+        return findGrupoAlumnoEntities(false, maxResults, firstResult);
     }
 
-    private List<CalificacionGrupo> findCalificacionGrupoEntities(boolean all, int maxResults, int firstResult) {
+    private List<GrupoAlumno> findGrupoAlumnoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(CalificacionGrupo.class));
+            cq.select(cq.from(GrupoAlumno.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -172,20 +172,20 @@ public class CalificacionGrupoJpaController extends BaseController implements Se
         }
     }
 
-    public CalificacionGrupo findCalificacionGrupo(CalificacionGrupoPK id) {
+    public GrupoAlumno findGrupoAlumno(GrupoAlumnoPK id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(CalificacionGrupo.class, id);
+            return em.find(GrupoAlumno.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getCalificacionGrupoCount() {
+    public int getGrupoAlumnoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<CalificacionGrupo> rt = cq.from(CalificacionGrupo.class);
+            Root<GrupoAlumno> rt = cq.from(GrupoAlumno.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

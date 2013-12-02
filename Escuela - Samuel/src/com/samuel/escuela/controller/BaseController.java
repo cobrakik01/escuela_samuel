@@ -16,15 +16,15 @@ import javax.persistence.Persistence;
  */
 public class BaseController implements Serializable {
 
-    private EntityManagerFactory emf = null;
-
     public BaseController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
+
     public BaseController() {
-        this(Persistence.createEntityManagerFactory("Escuela_-_SamuelPU"));
+        this(Persistence.createEntityManagerFactory("EscuelalPU"));
     }
+
+    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.samuel.escuela.controller;
 
 import com.samuel.escuela.controller.exceptions.IllegalOrphanException;
@@ -13,7 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.samuel.escuela.entity.CalificacionGrupo;
+import com.samuel.escuela.entity.GrupoAlumno;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -25,27 +26,27 @@ import javax.persistence.EntityManager;
 public class AlumnoJpaController extends BaseController implements Serializable {
 
     public void create(Alumno alumno) {
-        if (alumno.getCalificacionGrupoList() == null) {
-            alumno.setCalificacionGrupoList(new ArrayList<CalificacionGrupo>());
+        if (alumno.getGrupoAlumnoList() == null) {
+            alumno.setGrupoAlumnoList(new ArrayList<GrupoAlumno>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<CalificacionGrupo> attachedCalificacionGrupoList = new ArrayList<CalificacionGrupo>();
-            for (CalificacionGrupo calificacionGrupoListCalificacionGrupoToAttach : alumno.getCalificacionGrupoList()) {
-                calificacionGrupoListCalificacionGrupoToAttach = em.getReference(calificacionGrupoListCalificacionGrupoToAttach.getClass(), calificacionGrupoListCalificacionGrupoToAttach.getCalificacionGrupoPK());
-                attachedCalificacionGrupoList.add(calificacionGrupoListCalificacionGrupoToAttach);
+            List<GrupoAlumno> attachedGrupoAlumnoList = new ArrayList<GrupoAlumno>();
+            for (GrupoAlumno grupoAlumnoListGrupoAlumnoToAttach : alumno.getGrupoAlumnoList()) {
+                grupoAlumnoListGrupoAlumnoToAttach = em.getReference(grupoAlumnoListGrupoAlumnoToAttach.getClass(), grupoAlumnoListGrupoAlumnoToAttach.getGrupoAlumnoPK());
+                attachedGrupoAlumnoList.add(grupoAlumnoListGrupoAlumnoToAttach);
             }
-            alumno.setCalificacionGrupoList(attachedCalificacionGrupoList);
+            alumno.setGrupoAlumnoList(attachedGrupoAlumnoList);
             em.persist(alumno);
-            for (CalificacionGrupo calificacionGrupoListCalificacionGrupo : alumno.getCalificacionGrupoList()) {
-                Alumno oldAlumnoOfCalificacionGrupoListCalificacionGrupo = calificacionGrupoListCalificacionGrupo.getAlumno();
-                calificacionGrupoListCalificacionGrupo.setAlumno(alumno);
-                calificacionGrupoListCalificacionGrupo = em.merge(calificacionGrupoListCalificacionGrupo);
-                if (oldAlumnoOfCalificacionGrupoListCalificacionGrupo != null) {
-                    oldAlumnoOfCalificacionGrupoListCalificacionGrupo.getCalificacionGrupoList().remove(calificacionGrupoListCalificacionGrupo);
-                    oldAlumnoOfCalificacionGrupoListCalificacionGrupo = em.merge(oldAlumnoOfCalificacionGrupoListCalificacionGrupo);
+            for (GrupoAlumno grupoAlumnoListGrupoAlumno : alumno.getGrupoAlumnoList()) {
+                Alumno oldAlumnoOfGrupoAlumnoListGrupoAlumno = grupoAlumnoListGrupoAlumno.getAlumno();
+                grupoAlumnoListGrupoAlumno.setAlumno(alumno);
+                grupoAlumnoListGrupoAlumno = em.merge(grupoAlumnoListGrupoAlumno);
+                if (oldAlumnoOfGrupoAlumnoListGrupoAlumno != null) {
+                    oldAlumnoOfGrupoAlumnoListGrupoAlumno.getGrupoAlumnoList().remove(grupoAlumnoListGrupoAlumno);
+                    oldAlumnoOfGrupoAlumnoListGrupoAlumno = em.merge(oldAlumnoOfGrupoAlumnoListGrupoAlumno);
                 }
             }
             em.getTransaction().commit();
@@ -62,36 +63,36 @@ public class AlumnoJpaController extends BaseController implements Serializable 
             em = getEntityManager();
             em.getTransaction().begin();
             Alumno persistentAlumno = em.find(Alumno.class, alumno.getId());
-            List<CalificacionGrupo> calificacionGrupoListOld = persistentAlumno.getCalificacionGrupoList();
-            List<CalificacionGrupo> calificacionGrupoListNew = alumno.getCalificacionGrupoList();
+            List<GrupoAlumno> grupoAlumnoListOld = persistentAlumno.getGrupoAlumnoList();
+            List<GrupoAlumno> grupoAlumnoListNew = alumno.getGrupoAlumnoList();
             List<String> illegalOrphanMessages = null;
-            for (CalificacionGrupo calificacionGrupoListOldCalificacionGrupo : calificacionGrupoListOld) {
-                if (!calificacionGrupoListNew.contains(calificacionGrupoListOldCalificacionGrupo)) {
+            for (GrupoAlumno grupoAlumnoListOldGrupoAlumno : grupoAlumnoListOld) {
+                if (!grupoAlumnoListNew.contains(grupoAlumnoListOldGrupoAlumno)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain CalificacionGrupo " + calificacionGrupoListOldCalificacionGrupo + " since its alumno field is not nullable.");
+                    illegalOrphanMessages.add("You must retain GrupoAlumno " + grupoAlumnoListOldGrupoAlumno + " since its alumno field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<CalificacionGrupo> attachedCalificacionGrupoListNew = new ArrayList<CalificacionGrupo>();
-            for (CalificacionGrupo calificacionGrupoListNewCalificacionGrupoToAttach : calificacionGrupoListNew) {
-                calificacionGrupoListNewCalificacionGrupoToAttach = em.getReference(calificacionGrupoListNewCalificacionGrupoToAttach.getClass(), calificacionGrupoListNewCalificacionGrupoToAttach.getCalificacionGrupoPK());
-                attachedCalificacionGrupoListNew.add(calificacionGrupoListNewCalificacionGrupoToAttach);
+            List<GrupoAlumno> attachedGrupoAlumnoListNew = new ArrayList<GrupoAlumno>();
+            for (GrupoAlumno grupoAlumnoListNewGrupoAlumnoToAttach : grupoAlumnoListNew) {
+                grupoAlumnoListNewGrupoAlumnoToAttach = em.getReference(grupoAlumnoListNewGrupoAlumnoToAttach.getClass(), grupoAlumnoListNewGrupoAlumnoToAttach.getGrupoAlumnoPK());
+                attachedGrupoAlumnoListNew.add(grupoAlumnoListNewGrupoAlumnoToAttach);
             }
-            calificacionGrupoListNew = attachedCalificacionGrupoListNew;
-            alumno.setCalificacionGrupoList(calificacionGrupoListNew);
+            grupoAlumnoListNew = attachedGrupoAlumnoListNew;
+            alumno.setGrupoAlumnoList(grupoAlumnoListNew);
             alumno = em.merge(alumno);
-            for (CalificacionGrupo calificacionGrupoListNewCalificacionGrupo : calificacionGrupoListNew) {
-                if (!calificacionGrupoListOld.contains(calificacionGrupoListNewCalificacionGrupo)) {
-                    Alumno oldAlumnoOfCalificacionGrupoListNewCalificacionGrupo = calificacionGrupoListNewCalificacionGrupo.getAlumno();
-                    calificacionGrupoListNewCalificacionGrupo.setAlumno(alumno);
-                    calificacionGrupoListNewCalificacionGrupo = em.merge(calificacionGrupoListNewCalificacionGrupo);
-                    if (oldAlumnoOfCalificacionGrupoListNewCalificacionGrupo != null && !oldAlumnoOfCalificacionGrupoListNewCalificacionGrupo.equals(alumno)) {
-                        oldAlumnoOfCalificacionGrupoListNewCalificacionGrupo.getCalificacionGrupoList().remove(calificacionGrupoListNewCalificacionGrupo);
-                        oldAlumnoOfCalificacionGrupoListNewCalificacionGrupo = em.merge(oldAlumnoOfCalificacionGrupoListNewCalificacionGrupo);
+            for (GrupoAlumno grupoAlumnoListNewGrupoAlumno : grupoAlumnoListNew) {
+                if (!grupoAlumnoListOld.contains(grupoAlumnoListNewGrupoAlumno)) {
+                    Alumno oldAlumnoOfGrupoAlumnoListNewGrupoAlumno = grupoAlumnoListNewGrupoAlumno.getAlumno();
+                    grupoAlumnoListNewGrupoAlumno.setAlumno(alumno);
+                    grupoAlumnoListNewGrupoAlumno = em.merge(grupoAlumnoListNewGrupoAlumno);
+                    if (oldAlumnoOfGrupoAlumnoListNewGrupoAlumno != null && !oldAlumnoOfGrupoAlumnoListNewGrupoAlumno.equals(alumno)) {
+                        oldAlumnoOfGrupoAlumnoListNewGrupoAlumno.getGrupoAlumnoList().remove(grupoAlumnoListNewGrupoAlumno);
+                        oldAlumnoOfGrupoAlumnoListNewGrupoAlumno = em.merge(oldAlumnoOfGrupoAlumnoListNewGrupoAlumno);
                     }
                 }
             }
@@ -125,12 +126,12 @@ public class AlumnoJpaController extends BaseController implements Serializable 
                 throw new NonexistentEntityException("The alumno with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<CalificacionGrupo> calificacionGrupoListOrphanCheck = alumno.getCalificacionGrupoList();
-            for (CalificacionGrupo calificacionGrupoListOrphanCheckCalificacionGrupo : calificacionGrupoListOrphanCheck) {
+            List<GrupoAlumno> grupoAlumnoListOrphanCheck = alumno.getGrupoAlumnoList();
+            for (GrupoAlumno grupoAlumnoListOrphanCheckGrupoAlumno : grupoAlumnoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Alumno (" + alumno + ") cannot be destroyed since the CalificacionGrupo " + calificacionGrupoListOrphanCheckCalificacionGrupo + " in its calificacionGrupoList field has a non-nullable alumno field.");
+                illegalOrphanMessages.add("This Alumno (" + alumno + ") cannot be destroyed since the GrupoAlumno " + grupoAlumnoListOrphanCheckGrupoAlumno + " in its grupoAlumnoList field has a non-nullable alumno field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -189,5 +190,5 @@ public class AlumnoJpaController extends BaseController implements Serializable 
             em.close();
         }
     }
-
+    
 }

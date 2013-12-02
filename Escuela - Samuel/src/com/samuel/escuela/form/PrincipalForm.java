@@ -6,6 +6,7 @@
 package com.samuel.escuela.form;
 
 import com.samuel.escuela.component.DesckTopPaneBackGround;
+import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 
@@ -37,6 +38,7 @@ public class PrincipalForm extends javax.swing.JFrame {
         btnMaterias = new javax.swing.JButton();
         btnProfesores = new javax.swing.JButton();
         btnGrupos = new javax.swing.JButton();
+        btnUsuarios = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jdpPrincipal = new javax.swing.JDesktopPane();
@@ -56,12 +58,11 @@ public class PrincipalForm extends javax.swing.JFrame {
         jifUsuarios = new javax.swing.JInternalFrame();
         jScrollPane7 = new javax.swing.JScrollPane();
         usuarioMasterDetailForm1 = new com.samuel.escuela.form.UsuarioMasterDetailForm();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
+        jifAsignarMaterias = new javax.swing.JInternalFrame();
         jScrollPane8 = new javax.swing.JScrollPane();
-        asignarMateriaForm1 = new com.samuel.escuela.form.AsignarMateriaForm();
+        jpAsignarMaterias = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.BorderLayout());
 
         jToolBar1.setBorder(new DesckTopPaneBackGround(new ImageIcon(this.getClass().getResource("/com/samuel/escuela/icon/tollbar.png"))));
         jToolBar1.setFloatable(false);
@@ -123,12 +124,23 @@ public class PrincipalForm extends javax.swing.JFrame {
         });
         jToolBar1.add(btnGrupos);
 
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/samuel/escuela/icon/users_control_24px.png"))); // NOI18N
-        jButton1.setText("Usuarios");
+        btnUsuarios.setForeground(new java.awt.Color(255, 255, 255));
+        btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/samuel/escuela/icon/users_control_24px.png"))); // NOI18N
+        btnUsuarios.setText("Usuarios");
+        btnUsuarios.setFocusable(false);
+        btnUsuarios.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnUsuarios.setOpaque(false);
+        btnUsuarios.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuariosActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnUsuarios);
+
+        jButton1.setText("Asignar Materias");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setOpaque(false);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,7 +163,6 @@ public class PrincipalForm extends javax.swing.JFrame {
         jifAlumnos.setResizable(true);
         jifAlumnos.setTitle("Alumnos");
         jifAlumnos.setVisible(false);
-        jifAlumnos.getContentPane().setLayout(new java.awt.BorderLayout());
 
         jpAlumnos.setLayout(new java.awt.BorderLayout());
         jpAlumnos.add(alumnoMasterDetailForm1, java.awt.BorderLayout.CENTER);
@@ -170,7 +181,6 @@ public class PrincipalForm extends javax.swing.JFrame {
         jifMaterias.setResizable(true);
         jifMaterias.setTitle("Materias");
         jifMaterias.setVisible(false);
-        jifMaterias.getContentPane().setLayout(new java.awt.BorderLayout());
 
         jScrollPane4.setViewportView(materiaMasterDetailForm1);
 
@@ -186,7 +196,6 @@ public class PrincipalForm extends javax.swing.JFrame {
         jifProfesores.setResizable(true);
         jifProfesores.setTitle("Profesores");
         jifProfesores.setVisible(false);
-        jifProfesores.getContentPane().setLayout(new java.awt.BorderLayout());
 
         jScrollPane5.setViewportView(profesorMasterDetailForm1);
 
@@ -202,7 +211,6 @@ public class PrincipalForm extends javax.swing.JFrame {
         jifGrupos.setResizable(true);
         jifGrupos.setTitle("Grupos");
         jifGrupos.setVisible(false);
-        jifGrupos.getContentPane().setLayout(new java.awt.BorderLayout());
 
         jScrollPane6.setViewportView(grupoMasterDetailForm1);
 
@@ -218,7 +226,6 @@ public class PrincipalForm extends javax.swing.JFrame {
         jifUsuarios.setResizable(true);
         jifUsuarios.setTitle("Usuarios");
         jifUsuarios.setVisible(false);
-        jifUsuarios.getContentPane().setLayout(new java.awt.BorderLayout());
 
         jScrollPane7.setViewportView(usuarioMasterDetailForm1);
 
@@ -227,21 +234,21 @@ public class PrincipalForm extends javax.swing.JFrame {
         jdpPrincipal.add(jifUsuarios);
         jifUsuarios.setBounds(240, 100, 490, 340);
 
-        jInternalFrame1.setClosable(true);
-        jInternalFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
-        jInternalFrame1.setIconifiable(true);
-        jInternalFrame1.setMaximizable(true);
-        jInternalFrame1.setResizable(true);
-        jInternalFrame1.setTitle("Asignar Materia");
-        jInternalFrame1.setVisible(true);
-        jInternalFrame1.getContentPane().setLayout(new java.awt.BorderLayout());
+        jifAsignarMaterias.setClosable(true);
+        jifAsignarMaterias.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        jifAsignarMaterias.setIconifiable(true);
+        jifAsignarMaterias.setMaximizable(true);
+        jifAsignarMaterias.setResizable(true);
+        jifAsignarMaterias.setTitle("Asignar Materia");
+        jifAsignarMaterias.setVisible(false);
 
-        jScrollPane8.setViewportView(asignarMateriaForm1);
+        jScrollPane8.setViewportView(jpAsignarMaterias);
+        jpAsignarMaterias.add(new AsignarMateriaForm(), BorderLayout.CENTER);
 
-        jInternalFrame1.getContentPane().add(jScrollPane8, java.awt.BorderLayout.CENTER);
+        jifAsignarMaterias.getContentPane().add(jScrollPane8, java.awt.BorderLayout.CENTER);
 
-        jdpPrincipal.add(jInternalFrame1);
-        jInternalFrame1.setBounds(140, 40, 561, 370);
+        jdpPrincipal.add(jifAsignarMaterias);
+        jifAsignarMaterias.setBounds(150, 40, 590, 390);
 
         jScrollPane2.setViewportView(jdpPrincipal);
 
@@ -267,8 +274,12 @@ public class PrincipalForm extends javax.swing.JFrame {
         showInternalFrame(jifGrupos);
     }//GEN-LAST:event_btnGruposActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         showInternalFrame(jifUsuarios);
+    }//GEN-LAST:event_btnUsuariosActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        showInternalFrame(jifAsignarMaterias);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void showInternalFrame(JInternalFrame frame) {
@@ -279,14 +290,13 @@ public class PrincipalForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.samuel.escuela.form.AlumnoMasterDetailForm alumnoMasterDetailForm1;
-    private com.samuel.escuela.form.AsignarMateriaForm asignarMateriaForm1;
     private javax.swing.JButton btnAlumnos;
     private javax.swing.JButton btnGrupos;
     private javax.swing.JButton btnMaterias;
     private javax.swing.JButton btnProfesores;
+    private javax.swing.JButton btnUsuarios;
     private com.samuel.escuela.form.GrupoMasterDetailForm grupoMasterDetailForm1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -298,11 +308,13 @@ public class PrincipalForm extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JDesktopPane jdpPrincipal;
     private javax.swing.JInternalFrame jifAlumnos;
+    private javax.swing.JInternalFrame jifAsignarMaterias;
     private javax.swing.JInternalFrame jifGrupos;
     private javax.swing.JInternalFrame jifMaterias;
     private javax.swing.JInternalFrame jifProfesores;
     private javax.swing.JInternalFrame jifUsuarios;
     private javax.swing.JPanel jpAlumnos;
+    private javax.swing.JPanel jpAsignarMaterias;
     private com.samuel.escuela.form.MateriaMasterDetailForm materiaMasterDetailForm1;
     private com.samuel.escuela.form.ProfesorMasterDetailForm profesorMasterDetailForm1;
     private com.samuel.escuela.form.UsuarioMasterDetailForm usuarioMasterDetailForm1;

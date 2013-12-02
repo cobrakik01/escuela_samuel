@@ -16,6 +16,7 @@ import com.samuel.escuela.entity.Grupo;
 import com.samuel.escuela.entity.Materia;
 import com.samuel.escuela.entity.MateriaAsignada;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -217,6 +218,15 @@ public class MateriaJpaController extends BaseController implements Serializable
         } finally {
             em.close();
         }
+    }
+
+    public List<Materia> findMateriaByDisable() {
+        List<Materia> list = null;
+        list = this.findMateriaEntities();
+        if(list == null){
+            list = new LinkedList<>();
+        }
+        return list;
     }
 
 }

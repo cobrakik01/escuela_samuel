@@ -5,9 +5,9 @@
  */
 package com.samuel.escuela.form;
 
+import com.samuel.escuela.entity.Materia;
 import com.samuel.escuela.controller.MateriaJpaController;
 import com.samuel.escuela.controller.ProfesorJpaController;
-import com.samuel.escuela.entity.Materia;
 import com.samuel.escuela.entity.Profesor;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -80,24 +80,21 @@ public class AsignarMateriaForm extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Materias disponibles"));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jlMateriasDisponibles.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listMateriasDisponibles}");
         org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jlMateriasDisponibles);
         jListBinding.setDetailBinding(org.jdesktop.beansbinding.ELProperty.create("${nombre}"));
         bindingGroup.addBinding(jListBinding);
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${listMateriasDisponibles}"), jlMateriasDisponibles, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
-        bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jlMateriasDisponibles);
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jButton1.setText("Agregar >");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("< Remover");
 
@@ -125,11 +122,6 @@ public class AsignarMateriaForm extends javax.swing.JPanel {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Materias asignadas"));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jlMateriasAsignadas.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(jlMateriasAsignadas);
 
         jPanel3.add(jScrollPane2, java.awt.BorderLayout.CENTER);
@@ -213,6 +205,11 @@ public class AsignarMateriaForm extends javax.swing.JPanel {
         ((JTextField) evt.getSource()).selectAll();
     }//GEN-LAST:event_txtClaveProfesorFocusGained
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        List list = jlMateriasDisponibles.getSelectedValuesList();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void mensajeError(JTextField txt, String mensaje) {
         Toolkit.getDefaultToolkit().beep();
         limpiarCamposProfesor();
@@ -255,13 +252,27 @@ public class AsignarMateriaForm extends javax.swing.JPanel {
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
-    private List<Materia> listMateriasDisponibles;
+    private List<Materia> listMateriasDisponibles = new MateriaJpaController().findMateriaByDisable();
 
     public List<Materia> getListMateriasDisponibles() {
-        return new MateriaJpaController().findMateriaEntities();
+        return listMateriasDisponibles;
     }
 
     public void setListMateriasDisponibles(List<Materia> listMateriasDisponibles) {
         this.listMateriasDisponibles = listMateriasDisponibles;
     }
+
+    private List<Materia> listMateriasAsignadas;
+
+    public List<Materia> getListMateriasAsignadas() {
+        if (listMateriasAsignadas != null) {
+            listMateriasAsignadas = new LinkedList<>();
+        }
+        return listMateriasAsignadas;
+    }
+
+    public void setListMateriasAsignadas(List<Materia> listMateriasAsignadas) {
+        this.listMateriasAsignadas = listMateriasAsignadas;
+    }
+
 }

@@ -16,7 +16,7 @@ import javax.persistence.Embeddable;
  * @author cobrakik01
  */
 @Embeddable
-public class CalificacionGrupoPK implements Serializable {
+public class GrupoAlumnoPK implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private int id;
@@ -27,10 +27,10 @@ public class CalificacionGrupoPK implements Serializable {
     @Column(name = "grupo_id", nullable = false)
     private int grupoId;
 
-    public CalificacionGrupoPK() {
+    public GrupoAlumnoPK() {
     }
 
-    public CalificacionGrupoPK(int id, int alumnoId, int grupoId) {
+    public GrupoAlumnoPK(int id, int alumnoId, int grupoId) {
         this.id = id;
         this.alumnoId = alumnoId;
         this.grupoId = grupoId;
@@ -72,10 +72,10 @@ public class CalificacionGrupoPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CalificacionGrupoPK)) {
+        if (!(object instanceof GrupoAlumnoPK)) {
             return false;
         }
-        CalificacionGrupoPK other = (CalificacionGrupoPK) object;
+        GrupoAlumnoPK other = (GrupoAlumnoPK) object;
         if (this.id != other.id) {
             return false;
         }
@@ -90,7 +90,7 @@ public class CalificacionGrupoPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.samuel.escuela.entity.CalificacionGrupoPK[ id=" + id + ", alumnoId=" + alumnoId + ", grupoId=" + grupoId + " ]";
+        return "com.samuel.escuela.entity.GrupoAlumnoPK[ id=" + id + ", alumnoId=" + alumnoId + ", grupoId=" + grupoId + " ]";
     }
     
 }
