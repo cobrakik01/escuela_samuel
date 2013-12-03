@@ -9,7 +9,6 @@ import com.samuel.escuela.controller.UsuarioJpaController;
 import com.samuel.escuela.form.AlumnoMasterDetailForm;
 import com.samuel.escuela.form.LoaderForm;
 import com.samuel.escuela.form.PrincipalForm;
-import java.awt.EventQueue;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
